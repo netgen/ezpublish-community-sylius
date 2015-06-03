@@ -1,10 +1,12 @@
 imports:
     - { resource: parameters.yml }
+    - { resource: sylius_parameters.yml }
     - { resource: security.yml }
+    - { resource: sylius_config.yml }
 
 framework:
     esi:             ~
-    #translator:      { fallback: "%locale_fallback%" }
+    translator:      { fallback: "%locale_fallback%" }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -14,7 +16,8 @@ framework:
         enabled: true
         # Note: changing this will break legacy extensions that rely on the default name to alter AJAX requests
         # See https://jira.ez.no/browse/EZP-20783
-        field_name: ezxform_token
+        # Renamed to "_token" for compatibility with Sylius
+        field_name: _token
     validation:      { enable_annotations: true }
     # Place "eztpl" engine first intentionnally.
     # This is to avoid template name parsing with Twig engine, refusing specific characters
@@ -41,7 +44,7 @@ twig:
 assetic:
     debug:          "%kernel.debug%"
     use_controller: false
-    bundles:        [ eZDemoBundle ]
+    bundles:        [ eZDemoBundle, SyliusWebBundle, CmfCreateBundle, SyliusResourceBundle ]
     #java: /usr/bin/java
     filters:
         cssrewrite: ~

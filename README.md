@@ -1,61 +1,68 @@
-# eZ Publish 5
+# eZ Publish 5 and Sylius E-Commerce integration
 
-## What is eZ Publish?
-**eZ Publish 5** is a professional PHP CMS (content management system).
+## About this repo
 
-It strives to be database, platform and browser independent. Because it is
-browser based it can be used from anywhere, on any device, as long as you have
-access to the Internet. One of it's unique features is how you can model
-content without having to change your database. It allows you to effectively
-define model structures using fields, trees and relations, and has a very
-flexible permission system which allows you to define who has access to
-perform actions under which limiting factors.
+This repo provides an example integration of eZ Publish 5 and Sylius E-Commerce.
 
-eZ Publish exists in two versions; this, the community version is available under
-the GPLv2 license, while several extended versions for enterprise & business is available
-under a more permissive business license, see [ez.no](http://ez.no/) for more info.
+Initial version of integration provides the ability to run eZ Publish and Sylius
+as one application, using the same database, but WITHOUT sharing users. Sharing users between
+eZ Publish and Sylius is planned for further releases.
 
-## Install, Upgrade and Getting started
-For installation & upgrade instructions, see [INSTALL.md](https://github.com/ezsystems/ezpublish-community/blob/master/INSTALL.md).
+Two integration points do exist however (provided by [NetgenEzSyliusBundle](https://github.com/netgen/NetgenEzSyliusBundle)):
 
-To get started with coding, see [GETTING_STARTED.md](https://github.com/ezsystems/ezpublish-community/blob/master/GETTING_STARTED.md).
+* eZ Publish field type and legacy datatype which provide the ability to create and edit Sylius
+  products by publishing eZ Publish content
+* Ability to generate links to eZ Publish content wrapping Sylius products instead of generating
+  the links to products themselves
+
+## Installation instructions
+
+For installation instructions, see [INSTALL.md](https://github.com/netgen/ezpublish-community-sylius/blob/sylius_integration/INSTALL.md).
 
 ## Requirements
-**eZ Publish 5** has the same requirements as [Symfony2](http://symfony.com/doc/master/reference/requirements.html),
+
+eZ Publish 5 and Sylius have the same requirements as [Symfony2](http://symfony.com/doc/master/reference/requirements.html),
 plus the [regular eZ Publish 4 ones](http://doc.ez.no/eZ-Publish/Technical-manual/4.x/Installation/Normal-installation/Requirements-for-doing-a-normal-installation).
 
-Minimum PHP version is 5.3.17, but 5.5.x is recommended.
+Minimum PHP version is 5.4.4, but 5.5.x is recommended.
 
-## Backwards compatibility
-eZ Publish 5 is **100% data compatible** with version 4, as in the same
-database can be used by following the [normal](http://doc.ez.no/eZ-Publish/Upgrading) upgrade path.
+The integration is based on eZ Publish Community 2014.11 and Sylius E-Commerce 0.14
 
-## Architecture
+## Known issues
 
-### Public API
-**eZ Publish 5** relies on a flexible, layered, service oriented API.
-The Public API consists of the Model (the M in MVC) and all
-apis related to operations available for this Model. More info can be found
-in /vendor/ezsystems/ezpublish-kernel/Readme.md after installation.
+Two issues were detected while testing the integration and as of now remain unfixed. However, both issues
+are not critical and can be easily circumvented and do not affect normal operation:
 
-### MVC
-eZ Publish 5 is built on top of **[Symfony2](http://symfony.com)** full stack framework, taking advantage of
-every component provided, including all its **Hierarchical Model View Controller** (aka *HMVC*) power.
+* running `cache:clear` command WITHOUT `--no-warmup` flag results in `RuntimeException` "Failed to start the
+  session because headers have already been sent by `/var/www/html/ezpublish/ezpublish_legacy/lib/ezutils/classes/ezcli.php`
+  at line 351."
+  
+  Solution: Run the command with `--no-warmup` flag
 
-### Chained routing
-A chain router is introduced, allowing to take advantage of declared routes in the `routing.yml` config file as well as
-URL aliases to match content (aka *dynamic routing*), or routing fallback to the old eZ Publish 4 modules.
+* running eZ Publish setup wizard in dev environment (set by `ENVIRONMENT` environment variable), results
+  in fatal error at the end of setup wizard.
 
-### Template engine
-The default template engine used by the system is **[Twig](http://twig.sensiolabs.org/)**.
-**Twig** is a modern, powerful and easy to extend template engine.
+  Solution: Run the setup wizard while in prod environment
 
-> As Symfony2 allows usage of multiple template engines, it is also possible to do so in eZ Publish 5, but all the
-> content oriented functionality are only available with Twig.
+## Credits
 
+The following people worked on integrating eZ Publish and Sylius:
 
-## COPYRIGHT
-Copyright (C) 1999-2014 eZ Systems AS. All rights reserved.
+* [Antonio Perić](https://github.com/antonioperic) (Locastic)
+* [Ivan Herak](https://github.com/iherak) (Netgen)
+* [Edi Modrić](https://github.com/emodric) (Netgen)
 
-## LICENSE
-http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+This integration was developed on a commercial project in cooperation with [Locastic](https://github.com/locastic) (development)
+and [Keyteq](https://github.com/keyteqlabs) (project lead).
+
+## Copyright
+
+* Copyright (C) 1999-2015 eZ Systems AS. All rights reserved.
+* Copyright (c) 2011-2015 Paweł Jędrzejewski
+* Copyright (C) 2015 Locastic. All rights reserved.
+* Copyright (C) 2015 Netgen. All rights reserved.
+
+## License
+
+* http://www.gnu.org/licenses/gpl-2.0.txt GNU General Public License v2
+* https://github.com/Sylius/Sylius/blob/master/LICENSE

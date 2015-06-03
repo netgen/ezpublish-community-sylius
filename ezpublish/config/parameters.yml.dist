@@ -6,8 +6,16 @@ parameters:
 
     mailer_transport:  smtp
     mailer_host:       127.0.0.1
+    mailer_port:       ~
     mailer_user:       ~
     mailer_password:   ~
+
+    database_driver: pdo_mysql
+    database_host: 127.0.0.1
+    database_port: ~
+    database_user: root
+    database_password: ~
+    database_name: ezpublish
 
     # Settings to control dev environment settings
     debug_toolbar:          true

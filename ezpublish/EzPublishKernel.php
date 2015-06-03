@@ -52,6 +52,51 @@ class EzPublishKernel extends Kernel
     public function registerBundles()
     {
         $bundles = array(
+            // Sylius Bundles
+            new \Sylius\Bundle\TranslationBundle\SyliusTranslationBundle(),
+            new \Sylius\Bundle\InstallerBundle\SyliusInstallerBundle(),
+            new \Sylius\Bundle\OrderBundle\SyliusOrderBundle(),
+            new \Sylius\Bundle\MoneyBundle\SyliusMoneyBundle(),
+            new \Sylius\Bundle\CurrencyBundle\SyliusCurrencyBundle(),
+            new \Sylius\Bundle\ContactBundle\SyliusContactBundle(),
+            new \Sylius\Bundle\LocaleBundle\SyliusLocaleBundle(),
+            new \Sylius\Bundle\SettingsBundle\SyliusSettingsBundle(),
+            new \Sylius\Bundle\CartBundle\SyliusCartBundle(),
+            new \Sylius\Bundle\ProductBundle\SyliusProductBundle(),
+            new \Sylius\Bundle\ArchetypeBundle\SyliusArchetypeBundle(),
+            new \Sylius\Bundle\VariationBundle\SyliusVariationBundle(),
+            new \Sylius\Bundle\AttributeBundle\SyliusAttributeBundle(),
+            new \Sylius\Bundle\TaxationBundle\SyliusTaxationBundle(),
+            new \Sylius\Bundle\ShippingBundle\SyliusShippingBundle(),
+            new \Sylius\Bundle\PaymentBundle\SyliusPaymentBundle(),
+            new \Sylius\Bundle\MailerBundle\SyliusMailerBundle(),
+            new \Sylius\Bundle\ReportBundle\SyliusReportBundle(),
+            new \Sylius\Bundle\PromotionBundle\SyliusPromotionBundle(),
+            new \Sylius\Bundle\AddressingBundle\SyliusAddressingBundle(),
+            new \Sylius\Bundle\InventoryBundle\SyliusInventoryBundle(),
+            new \Sylius\Bundle\TaxonomyBundle\SyliusTaxonomyBundle(),
+            new \Sylius\Bundle\FlowBundle\SyliusFlowBundle(),
+            new \Sylius\Bundle\PricingBundle\SyliusPricingBundle(),
+            new \Sylius\Bundle\SequenceBundle\SyliusSequenceBundle(),
+            new \Sylius\Bundle\ContentBundle\SyliusContentBundle(),
+            new \Sylius\Bundle\SearchBundle\SyliusSearchBundle(),
+            new \Sylius\Bundle\RbacBundle\SyliusRbacBundle(),
+
+            new \Sylius\Bundle\CoreBundle\SyliusCoreBundle(),
+            new \Sylius\Bundle\WebBundle\SyliusWebBundle(),
+            new \winzou\Bundle\StateMachineBundle\winzouStateMachineBundle(),
+            new \Sylius\Bundle\ResourceBundle\SyliusResourceBundle(),
+            new \Sylius\Bundle\ApiBundle\SyliusApiBundle(),
+
+            new \Sonata\BlockBundle\SonataBlockBundle(),
+            new \Symfony\Cmf\Bundle\CoreBundle\CmfCoreBundle(),
+            new \Symfony\Cmf\Bundle\BlockBundle\CmfBlockBundle(),
+            new \Symfony\Cmf\Bundle\ContentBundle\CmfContentBundle(),
+            new \Symfony\Cmf\Bundle\RoutingBundle\CmfRoutingBundle(),
+            new \Symfony\Cmf\Bundle\MenuBundle\CmfMenuBundle(),
+            new \Symfony\Cmf\Bundle\CreateBundle\CmfCreateBundle(),
+            new \Symfony\Cmf\Bundle\MediaBundle\CmfMediaBundle(),
+
             new FrameworkBundle(),
             new SecurityBundle(),
             new TwigBundle(),
@@ -75,7 +120,31 @@ class EzPublishKernel extends Kernel
             new WhiteOctoberBreadcrumbsBundle(),
             new NelmioCorsBundle(),
             new KnpMenuBundle(),
-            new OneupFlysystemBundle()
+            new OneupFlysystemBundle(),
+
+            new \Doctrine\Bundle\DoctrineCacheBundle\DoctrineCacheBundle(),
+            new \Doctrine\Bundle\PHPCRBundle\DoctrinePHPCRBundle(),
+
+            new \Bazinga\Bundle\HateoasBundle\BazingaHateoasBundle(),
+            new \FOS\OAuthServerBundle\FOSOAuthServerBundle(),
+            new \FOS\RestBundle\FOSRestBundle(),
+
+            new \FOS\UserBundle\FOSUserBundle(),
+            new \FOS\ElasticaBundle\FOSElasticaBundle(),
+            new \Knp\Bundle\GaufretteBundle\KnpGaufretteBundle(),
+            new \Knp\Bundle\SnappyBundle\KnpSnappyBundle(),
+            new \Payum\Bundle\PayumBundle\PayumBundle(),
+            new \JMS\SerializerBundle\JMSSerializerBundle(),
+            new \JMS\TranslationBundle\JMSTranslationBundle(),
+            new \HWI\Bundle\OAuthBundle\HWIOAuthBundle(),
+            new \Stof\DoctrineExtensionsBundle\StofDoctrineExtensionsBundle(),
+
+            new \A2lix\TranslationFormBundle\A2lixTranslationFormBundle(),
+
+            new \Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
+            new \Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
+            new \Sylius\Bundle\FixturesBundle\SyliusFixturesBundle(),
+            new \Sylius\Bundle\PayumBundle\SyliusPayumBundle(), // must be added after PayumBundle.
         );
 
         switch ( $this->getEnvironment() )
@@ -91,6 +160,8 @@ class EzPublishKernel extends Kernel
                 $bundles[] = new SensioGeneratorBundle();
                 $bundles[] = new EguliasListenersDebugCommandBundle();
         }
+
+        $bundles[] = new \Netgen\Bundle\EzSyliusBundle\NetgenEzSyliusBundle();
 
         return $bundles;
     }

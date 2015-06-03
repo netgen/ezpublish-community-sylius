@@ -66,9 +66,6 @@
         RewriteCond %{REQUEST_URI} ^/php5-fcgi(.*)
         RewriteRule . - [L]
 
-        # v1 rest API is on Legacy
-        RewriteRule ^/api/[^/]+/v1/ /index_rest.php [L]
-
         # If using cluster, uncomment the following two lines:
         ## For 5.4 and higher:
         #RewriteRule ^/var/([^/]+/)?storage/images(-versioned)?/.* /index.php [L]
@@ -111,9 +108,14 @@
         # Following rule is needed to correctly display assets from eZ Publish5 / Symfony bundles
         RewriteRule ^/bundles/ - [L]
 
-        # Additional Assetic rules for prod env, remember to run php ezpublish/console assetic:dump --env=prod
-        RewriteCond %{ENV:ENVIRONMENT} "prod"
-        RewriteRule ^/(css|js)/.*\.(css|js) - [L]
+        # Sylius specific rewrite rules
+        RewriteRule ^/assets/ - [L]
+        RewriteRule ^/media/ - [L]
+
+        # Additional Assetic rules for environments different from dev,
+        # remember to run php ezpublish/console assetic:dump --env=prod
+        RewriteCond %{ENV:ENVIRONMENT} !^(dev)
+        RewriteRule ^/(css|js|font)/.*\.(css|js|otf|eot|ttf|svg|woff) - [L]
 
         # Conditions for enabling webdav and soap interfaces from legacy
         ## Symlink files into your web folder and correct domain names to be valid server aliases

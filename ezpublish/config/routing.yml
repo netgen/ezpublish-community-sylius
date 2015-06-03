@@ -24,5 +24,9 @@ _ezpublishRestOptionsRoutes:
 _liip_imagine:
     resource: "@LiipImagineBundle/Resources/config/routing.xml"
 
+_sylius:
+    resource: "sylius_routing.yml"
+    prefix: %ez_sylius.shop_path_prefix%
+
 _ezpublishDemoRoutes:
     resource: "@eZDemoBundle/Resources/config/routing.yml"

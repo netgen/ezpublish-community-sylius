@@ -1,11 +1,66 @@
 security:
     providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username
         ezpublish:
             id: ezpublish.security.user_provider
-#        in_memory:
-#            memory: ~
+
+    encoders:
+        FOS\UserBundle\Model\UserInterface: sha512
 
     firewalls:
+        # Sylius firewalls
+        administration:
+            switch_user: true
+            context:     user
+            pattern:     %ez_sylius.shop_path_prefix%/administration/.*
+            form_login:
+                provider:     fos_userbundle
+                login_path:   %ez_sylius.shop_path_prefix%/administration/login
+                check_path:   %ez_sylius.shop_path_prefix%/administration/login-check
+                failure_path: %ez_sylius.shop_path_prefix%/administration/login
+                default_target_path: %ez_sylius.shop_path_prefix%/administration/dashboard
+                use_forward:  false
+                use_referer:  true
+            logout:
+                path:   %ez_sylius.shop_path_prefix%/administration/logout
+                target: %ez_sylius.shop_path_prefix%/administration/login
+            anonymous: true
+
+        main:
+            switch_user: { role: ROLE_SYLIUS_ADMIN }
+            context:     user
+            pattern:     %ez_sylius.shop_path_prefix%/.*
+            form_login:
+                provider: fos_userbundle
+                login_path: %ez_sylius.shop_path_prefix%/login
+                check_path: %ez_sylius.shop_path_prefix%/login_check
+                failure_path: %ez_sylius.shop_path_prefix%/login
+                default_target_path: %ez_sylius.shop_path_prefix%
+                use_forward:  false
+                use_referer: true
+            remember_me:
+                key: %sylius.secret%
+                name: APP_REMEMBER_ME
+                lifetime: 31536000
+                always_remember_me: true
+                remember_me_parameter: _remember_me
+            oauth:
+                resource_owners:
+                    amazon:   "%ez_sylius.shop_path_prefix%/login/check-amazon"
+                    facebook: "%ez_sylius.shop_path_prefix%/login/check-facebook"
+                    google:   "%ez_sylius.shop_path_prefix%/login/check-google"
+                login_path:   %ez_sylius.shop_path_prefix%/connect
+                check_path:   %ez_sylius.shop_path_prefix%/login_check
+                failure_path: %ez_sylius.shop_path_prefix%/connect
+                oauth_user_provider:
+                    service: sylius.oauth.user_provider
+            logout:
+                path:   %ez_sylius.shop_path_prefix%/logout
+                target: %ez_sylius.shop_path_prefix%/login
+            anonymous: true
+
+        # eZ Publish firewalls
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
@@ -13,12 +68,14 @@ security:
         ezpublish_setup:
             pattern: ^/ezsetup
             security: false
+            provider: ezpublish
 
         ezpublish_rest:
             pattern: ^/api/ezp/v2
             stateless: true
             ezpublish_http_basic:
                 realm: eZ Publish REST API
+            provider: ezpublish
 
         ezpublish_front:
             pattern: ^/
@@ -26,6 +83,21 @@ security:
             form_login:
                 require_previous_session: false
             logout: ~
+            provider: ezpublish
 
         default:
             anonymous: ~
+
+    access_control:
+        - { path: ^%ez_sylius.shop_path_prefix%/login.*, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^%ez_sylius.shop_path_prefix%/connect.*, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^%ez_sylius.shop_path_prefix%/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^%ez_sylius.shop_path_prefix%/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+
+        - { path: ^%ez_sylius.shop_path_prefix%/administration/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^%ez_sylius.shop_path_prefix%/administration/login-check, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: "%ez_sylius.shop_path_prefix%/administration.*", role: ROLE_ADMINISTRATION_ACCESS }
+
+        - { path: "%ez_sylius.shop_path_prefix%/account.*", role: ROLE_USER }
+
+        - { path: "%ez_sylius.shop_path_prefix%/_partial.*", ip: 127.0.0.1 }

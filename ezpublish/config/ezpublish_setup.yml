@@ -2,10 +2,11 @@ doctrine:
     dbal:
         connections:
             default:
-                driver: pdo_mysql
-                host: localhost
-                user: root
-                dbname: none
+                driver: %database_driver%
+                host: %database_host%
+                user: %database_user%
+                password: %database_password%
+                dbname: %database_name%
 
 ezpublish:
     repositories:
@@ -29,3 +30,6 @@ stash:
             drivers: [ BlackHole ]
             inMemory: true
             registerDoctrineAdapter: false
+
+parameters:
+    ezsettings.setup.url_alias_router: false
