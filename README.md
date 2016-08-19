@@ -1,6 +1,6 @@
 # NOTE: Deprecated repo
 
-This repo is deprecated in favor of https://github.com/netgen/ezplatform-sylius due to being based on now unsupported and pretty old version of eZ Publish and Sylius. The new repo is based on current versions of both eZ Platform and Sylius.
+This repo is deprecated in favor of https://github.com/netgen/ezplatform-sylius due to being based on now unsupported and pretty old versions of eZ Publish (2014.11) and Sylius (0.14). The new repo is based on current versions of both eZ Platform and Sylius.
 
 # eZ Publish 5 and Sylius E-Commerce integration
 
